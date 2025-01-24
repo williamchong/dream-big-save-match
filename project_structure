@@ -1,0 +1,20 @@
+project/
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   ├── game.js
+│   ├── entities/
+│   │   ├── matchstick.js
+│   │   ├── bubble.js
+│   │   └── obstacle.js
+│   ├── scenes/
+│   │   ├── gameScene.js
+│   │   ├── menuScene.js
+│   │   └── upgradeScene.js
+│   └── utils/
+│       ├── input.js
+│       └── constants.js
+└── assets/
+    ├── images/
+    └── sounds/ 
