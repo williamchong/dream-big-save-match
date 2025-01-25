@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">
+  <div class="min-h-screen flex flex-col">
     <div v-if="gameState === GAME_STATES.INTRO">
       <IntroScreen @startGame="startGame" />
     </div>
@@ -24,35 +24,20 @@
       </button>
     </div>
 
-    <div v-else-if="gameState === GAME_STATES.PLAYING && isLoading" class="text-center p-8">
-      Loading...
+    <div v-else-if="gameState === GAME_STATES.PLAYING && isLoading" class="flex-1 flex items-center justify-center">
+      <div class="animate-pulse text-2xl">Loading...</div>
     </div>
 
-    <div v-else-if="gameState === GAME_STATES.PLAYING" class="space-y-4">
-      <div class="flex justify-between items-center mb-4">
-        <div class="text-xl font-bold">Time: {{ timeLeft }}s</div>
-        <div>Level: {{ currentLevel }}/{{ MAX_LEVELS }}</div>
-      </div>
-
-      <div class="space-y-2">
-        <label class="block">Girl's Dream: {{ themeWord }}</label>
-        <div>Target Score: {{ targetScore }}</div>
-        <div>Current Score: {{ score }}</div>
-      </div>
-
-      <form @submit.prevent="onSubmit" class="flex gap-2">
-        <input v-model="inputWord"
-          class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-        <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-          Enter
-        </button>
-      </form>
+    <div v-else-if="gameState === GAME_STATES.PLAYING" class="flex-1">
+      <GameScreen :time-left="timeLeft" :level="currentLevel" :max-level="MAX_LEVELS" :theme="themeWord" :score="score"
+        :target-score="targetScore" v-model="inputWord" @submit="onSubmit" />
     </div>
   </div>
 </template>
 
 <script setup>
 import IntroScreen from './components/IntroScreen.vue'
+import GameScreen from './components/GameScreen.vue'
 import { loadModel, compareWord } from './utils/model'
 import { LIST_OF_THEMES, GAME_STATES } from './constant'
 
