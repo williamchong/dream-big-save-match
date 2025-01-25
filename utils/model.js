@@ -1,3 +1,5 @@
+/* global tf, use */
+
 let model;
 
 export async function loadModel() {
