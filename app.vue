@@ -31,7 +31,8 @@
     <div v-else-if="gameState === GAME_STATES.PLAYING" class="flex-1">
       <GameScreen :time-left="timeLeft" :level="currentLevel" :max-level="MAX_LEVELS" :theme="themeWord" :score="score"
         :target-score="targetScore" :combo-count="comboCount" :combo-time-left="comboTimeLeft"
-        :multiplier="currentMultiplier" v-model="inputWord" @submit="onSubmit" />
+        :multiplier="currentMultiplier" :last-input-good="lastInputGood" :show-feedback="showFeedback"
+        v-model="inputWord" @submit="onSubmit" />
     </div>
 
     <div v-else-if="gameState === GAME_STATES.LEVEL_CLEAR"
@@ -91,6 +92,11 @@ const currentMultiplier = computed(() => {
   if (comboCount.value === 0) return 1
   return Math.pow(BASE_MULTIPLIER, Math.min(comboCount.value, MAX_COMBO))
 })
+
+// Add feedback state
+const lastInputGood = ref(false)
+const showFeedback = ref(false)
+const feedbackTimer = ref(null)
 
 onMounted(async () => {
   isLoading.value = true
@@ -182,12 +188,28 @@ function startComboTimer() {
   }, 16)
 }
 
+function showInputFeedback(isGood) {
+  lastInputGood.value = isGood
+  showFeedback.value = true
+
+  // Clear existing timer
+  if (feedbackTimer.value) {
+    clearTimeout(feedbackTimer.value)
+  }
+
+  // Hide feedback after 1 second
+  feedbackTimer.value = setTimeout(() => {
+    showFeedback.value = false
+  }, 1000)
+}
+
 async function onSubmit() {
   if (!inputWord.value) return
   const question = `How can I become ${themeWord.value}?'`
   const result = await compareWord(question, inputWord.value)
 
   if (result >= 11) {
+    showInputFeedback(true)
     const baseScore = (result - 10) ^ 2
     const finalScore = Math.round(baseScore * currentMultiplier.value)
     score.value += finalScore
@@ -202,6 +224,7 @@ async function onSubmit() {
       return
     }
   } else {
+    showInputFeedback(false)
     comboCount.value = 0
     clearInterval(comboTimer.value)
     score.value -= Math.round(10 - result)
@@ -213,5 +236,6 @@ async function onSubmit() {
 onUnmounted(() => {
   clearInterval(timerInterval.value)
   clearInterval(comboTimer.value)
+  clearTimeout(feedbackTimer.value)
 })
 </script>

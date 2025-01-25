@@ -4,7 +4,7 @@
     <div class="flex-1 relative flex items-center justify-between p-4 md:p-8 min-h-[400px] ocean-bg overflow-hidden">
       <!-- Ocean Waves Animation -->
       <div class="waves-overlay"></div>
-      
+
       <!-- Battle Info with better contrast -->
       <div class="absolute top-4 left-0 right-0 flex justify-between px-4 md:px-8 z-20">
         <div class="text-lg md:text-xl font-bold text-white drop-shadow-md">Time: {{ timeLeft }}s</div>
@@ -22,10 +22,7 @@
       <!-- Match in Bubble with enhanced effects -->
       <div class="w-1/3 relative z-30"> <!-- Increased z-index -->
         <div class="aspect-square relative mx-auto w-[150px] md:w-[200px]">
-          <div 
-            class="absolute inset-0 rounded-full animate-pulse bubble-effect" 
-            :style="bubbleStyle" 
-          />
+          <div class="absolute inset-0 rounded-full animate-pulse bubble-effect" :style="bubbleStyle" />
           <div class="absolute inset-0 flex items-center justify-center">
             <MatchStick :scale="1.5" :combo-count="comboCount" />
           </div>
@@ -42,10 +39,8 @@
             <span class="font-bold">Combo x{{ comboCount }} ({{ multiplier.toFixed(1) }}x)</span>
           </div>
           <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div 
-              class="h-full bg-blue-500 transition-all duration-100" 
-              :style="{ width: `${(comboTimeLeft / 5000) * 100}%` }"
-            ></div>
+            <div class="h-full bg-blue-500 transition-all duration-100"
+              :style="{ width: `${(comboTimeLeft / 5000) * 100}%` }"></div>
           </div>
         </div>
 
@@ -54,13 +49,23 @@
           <div>Target: {{ targetScore }} | Score: {{ score }}</div>
         </div>
 
-        <form class="flex gap-2" @submit.prevent="$emit('submit')">
+        <form class="flex gap-2 relative" @submit.prevent="$emit('submit')">
           <input :value="modelValue"
             class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Type your answer..." @input="$emit('update:modelValue', $event.target.value)">
           <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
             Enter
           </button>
+          <!-- Feedback Emoji -->
+          <Transition enter-active-class="transition duration-200 ease-out"
+            enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+            leave-active-class="transition duration-200 ease-in" leave-from-class="transform scale-100 opacity-100"
+            leave-to-class="transform scale-95 opacity-0">
+            <div v-if="showFeedback" class="-top-12 left-4 text-4xl animate-bounce"
+              :class="{ 'text-green-500': lastInputGood, 'text-red-500': !lastInputGood }">
+              {{ lastInputGood ? '✨' : '💧' }}
+            </div>
+          </Transition>
         </form>
       </div>
     </div>
@@ -81,6 +86,14 @@ const props = defineProps({
   comboCount: Number,
   comboTimeLeft: Number,
   multiplier: Number,
+  lastInputGood: {
+    type: Boolean,
+    default: false
+  },
+  showFeedback: {
+    type: Boolean,
+    default: false
+  }
 })
 
 defineEmits(['update:modelValue', 'submit'])
@@ -170,6 +183,7 @@ const bubbleStyle = computed(() => {
   0% {
     background-position-x: 0;
   }
+
   100% {
     background-position-x: 800px;
   }
