@@ -183,6 +183,7 @@ function startComboTimer() {
 }
 
 async function onSubmit() {
+  if (!inputWord.value) return
   const question = `How can I become ${themeWord.value}?'`
   const result = await compareWord(question, inputWord.value)
 
