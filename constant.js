@@ -8,7 +8,6 @@ export const LIST_OF_THEMES = [
 
 export const GAME_STATES = {
   INTRO: 'intro',
-  LOADING: 'loading',
   PLAYING: 'playing',
   WIN: 'win',
   LOSE: 'lose'

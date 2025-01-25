@@ -1,16 +1,7 @@
 <template>
   <div class="p-4">
-    <div v-if="gameState === GAME_STATES.INTRO" class="text-center p-8">
-      <h1 class="text-4xl font-bold mb-4">賣女孩救火柴</h1>
-      <p class="mb-4">Help the match girl survive by typing words related to dreams!</p>
-      <button @click="startGame"
-        class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-        Start Game
-      </button>
-    </div>
-
-    <div v-else-if="gameState === GAME_STATES.LOADING" class="text-center p-8">
-      Loading...
+    <div v-if="gameState === GAME_STATES.INTRO">
+      <IntroScreen @startGame="startGame" />
     </div>
 
     <div v-else-if="gameState === GAME_STATES.LOSE" class="text-center p-8">
@@ -31,6 +22,10 @@
         class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
         Return to Title
       </button>
+    </div>
+
+    <div v-else-if="gameState === GAME_STATES.PLAYING && isLoading" class="text-center p-8">
+      Loading...
     </div>
 
     <div v-else-if="gameState === GAME_STATES.PLAYING" class="space-y-4">
@@ -57,6 +52,7 @@
 </template>
 
 <script setup>
+import IntroScreen from './components/IntroScreen.vue'
 import { loadModel, compareWord } from './utils/model'
 import { LIST_OF_THEMES, GAME_STATES } from './constant'
 
@@ -79,12 +75,9 @@ onMounted(async () => {
   isLoading.value = true
   await loadModel()
   isLoading.value = false
-  onNewGame()
 })
 
 async function startGame() {
-  gameState.value = GAME_STATES.LOADING
-  await loadModel()
   onNewGame()
 }
 
