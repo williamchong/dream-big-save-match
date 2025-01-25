@@ -16,5 +16,6 @@ export async function compareWord(word1, word2) {
   const score = scores[0]
   embeddings['queryEmbedding'].dispose();
   embeddings['responseEmbedding'].dispose();
+  console.log('score', score)
   return score;
 }
