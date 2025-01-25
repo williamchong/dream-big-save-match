@@ -3,9 +3,9 @@
     <div v-if="isLoading">Loading...</div>
     <div v-else>
       <div class="timer">Time: {{ timeLeft }}s</div>
-      <label>{{ themeWord }}</label>
-      <div>Target: {{ targetScore }}</div>
-      <p>{{ score }}</p>
+      <label>Girl's Dream: {{ themeWord }}</label>
+      <div>Target Score: {{ targetScore }}</div>
+      <div>Current Score: {{ score }}</div>
       <form @submit.prevent="onSubmit">
         <input v-model="inputWord">
         <button type="submit">
@@ -41,17 +41,16 @@ function startTimer() {
   clearInterval(timerInterval.value)
   endTime.value = new Date(Date.now() + TIME_LIMIT * 1000)
   timeLeft.value = TIME_LIMIT
-  
+
   timerInterval.value = setInterval(() => {
     const now = new Date()
     const remaining = Math.max(0, Math.ceil((endTime.value - now) / 1000))
-    
     timeLeft.value = remaining
     if (remaining <= 0) {
       clearInterval(timerInterval.value)
       endLevel()
     }
-  }, 500) // 更頻繁檢查以獲得更準確的倒數
+  }, 500)
 }
 
 function endLevel() {
@@ -77,6 +76,7 @@ function getRandomTheme() {
 
 function onNewLevel() {
   inputWord.value = ''
+  targetScore.value += 5
   score.value = 0
   themeWord.value = getRandomTheme()
   startTimer()
