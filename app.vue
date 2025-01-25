@@ -33,6 +33,22 @@
         :target-score="targetScore" :combo-count="comboCount" :combo-time-left="comboTimeLeft"
         :multiplier="currentMultiplier" v-model="inputWord" @submit="onSubmit" />
     </div>
+
+    <div v-else-if="gameState === GAME_STATES.LEVEL_CLEAR"
+      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div class="bg-white p-8 rounded-lg text-center max-w-md mx-4">
+        <h2 class="text-3xl font-bold mb-4">Level Clear!</h2>
+        <div class="space-y-2 mb-6">
+          <p>Score: {{ score }}</p>
+          <p>Highest Combo: {{ maxComboReached }}x</p>
+          <p>Time Remaining: {{ timeLeft }}s</p>
+        </div>
+        <button @click="proceedToNextLevel"
+          class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+          Next Level
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -67,6 +83,9 @@ const comboCount = ref(0)
 const comboTimer = ref(null)
 const comboEndTime = ref(null)
 const comboTimeLeft = ref(0)
+
+// Add new state for tracking max combo
+const maxComboReached = ref(0)
 
 const currentMultiplier = computed(() => {
   if (comboCount.value === 0) return 1
@@ -110,12 +129,19 @@ function endLevel() {
     if (currentLevel.value >= MAX_LEVELS) {
       gameState.value = GAME_STATES.WIN
     } else {
-      currentLevel.value++
-      onNewLevel()
+      gameState.value = GAME_STATES.LEVEL_CLEAR
+      maxComboReached.value = Math.max(maxComboReached.value, comboCount.value)
     }
   } else {
     gameState.value = GAME_STATES.LOSE
   }
+}
+
+function proceedToNextLevel() {
+  currentLevel.value++
+  maxComboReached.value = 0
+  onNewLevel()
+  gameState.value = GAME_STATES.PLAYING
 }
 
 function onNewGame() {

@@ -32,5 +32,6 @@ export const GAME_STATES = {
   INTRO: 'intro',
   PLAYING: 'playing',
   WIN: 'win',
-  LOSE: 'lose'
+  LOSE: 'lose',
+  LEVEL_CLEAR: 'level_clear'  // Add new state
 };
