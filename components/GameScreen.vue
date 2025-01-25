@@ -1,11 +1,14 @@
 <template>
   <div class="h-full flex flex-col">
-    <!-- Game Area -->
-    <div class="flex-1 relative flex items-center justify-between p-4 md:p-8 min-h-[400px]">
-      <!-- Battle Info -->
+    <!-- Game Area with Ocean Background -->
+    <div class="flex-1 relative flex items-center justify-between p-4 md:p-8 min-h-[400px] ocean-bg overflow-hidden">
+      <!-- Ocean Waves Animation -->
+      <div class="waves-overlay"></div>
+      
+      <!-- Battle Info with better contrast -->
       <div class="absolute top-4 left-0 right-0 flex justify-between px-4 md:px-8 z-20">
-        <div class="text-lg md:text-xl font-bold">Time: {{ timeLeft }}s</div>
-        <div>Level: {{ level }}/{{ maxLevel }}</div>
+        <div class="text-lg md:text-xl font-bold text-white drop-shadow-md">Time: {{ timeLeft }}s</div>
+        <div class="text-white drop-shadow-md">Level: {{ level }}/{{ maxLevel }}</div>
       </div>
 
       <!-- Enemy with fixed aspect ratio container -->
@@ -16,10 +19,13 @@
         </div>
       </div>
 
-      <!-- Match in Bubble with fixed size -->
-      <div class="w-1/3 relative z-10">
+      <!-- Match in Bubble with enhanced effects -->
+      <div class="w-1/3 relative z-30"> <!-- Increased z-index -->
         <div class="aspect-square relative mx-auto w-[150px] md:w-[200px]">
-          <div class="absolute inset-0 rounded-full animate-pulse" :style="bubbleStyle" />
+          <div 
+            class="absolute inset-0 rounded-full animate-pulse bubble-effect" 
+            :style="bubbleStyle" 
+          />
           <div class="absolute inset-0 flex items-center justify-center">
             <MatchStick :scale="1.5" :combo-count="comboCount" />
           </div>
@@ -112,14 +118,14 @@ const enemyName = computed(() =>
   currentEnemy.value.split('/').pop().split('.')[0]
 )
 
-// Combine bubble styles into one computed property
+// Enhanced bubble style with more protective appearance
 const bubbleStyle = computed(() => {
   const scoreRatio = props.score / props.targetScore
   return {
-    background: `radial-gradient(circle, rgba(147,197,253,0.3) 0%, rgba(147,197,253,${0.1 + (scoreRatio * 0.3)
-      }) 100%)`,
+    background: `radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(147,197,253,${0.3 + (scoreRatio * 0.3)}) 100%)`,
     transform: `scale(${1 + (scoreRatio * 0.5)})`,
-    border: `${2 + (scoreRatio * 4)}px solid rgba(147,197,253,0.5)`
+    border: `${2 + (scoreRatio * 4)}px solid rgba(255,255,255,0.6)`,
+    boxShadow: `0 0 20px rgba(147,197,253,${0.3 + (scoreRatio * 0.3)})`
   }
 })
 </script>
@@ -139,5 +145,33 @@ const bubbleStyle = computed(() => {
 
 .animate-float {
   animation: float 3s ease-in-out infinite;
+}
+
+.ocean-bg {
+  background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%);
+  position: relative;
+}
+
+.waves-overlay {
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-.2-31.6z' fill='%23ffffff11'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: repeat-x;
+  animation: wave 20s linear infinite;
+  opacity: 0.3;
+}
+
+.bubble-effect {
+  backdrop-filter: blur(4px);
+}
+
+@keyframes wave {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 800px;
+  }
 }
 </style>
