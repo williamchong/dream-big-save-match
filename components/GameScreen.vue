@@ -45,7 +45,7 @@
         </div>
 
         <div class="mb-4 space-y-2">
-          <div class="text-base md:text-lg">Dream: {{ displayTheme }}</div>
+          <div class="text-base md:text-lg">Girl's Dream: {{ displayTheme }}</div>
           <div>Target: {{ targetScore }} | Score: {{ score }}</div>
         </div>
 
