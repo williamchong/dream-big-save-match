@@ -48,6 +48,14 @@ function onNewLevel() {
 
 async function onSubmit() {
   const question = `How can I become ${themeWord.value}?'`
-  score.value = await compareWord(question, inputWord.value)
+  const result = await compareWord(question, inputWord.value)
+  if (result >= 11) {
+    // good answer
+    score.value += Math.round((result - 10)^2)
+  } else {
+    // bad or meh answer
+    score.value -= Math.round(10 - result)
+  }
+  inputWord.value = ''
 }
 </script>
