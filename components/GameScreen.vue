@@ -20,8 +20,9 @@
       <div class="w-1/3 relative z-10">
         <div class="aspect-square relative mx-auto w-[150px] md:w-[200px]">
           <div class="absolute inset-0 rounded-full animate-pulse" :style="bubbleStyle" />
-          <img src="../assets/match.png" alt="Match"
-            class="absolute inset-0 w-full h-full object-contain p-8 relative z-10">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <MatchStick :scale="1.5" />
+          </div>
         </div>
       </div>
     </div>
@@ -48,6 +49,8 @@
 </template>
 
 <script setup>
+import MatchStick from './MatchStick.vue'
+
 const props = defineProps({
   timeLeft: Number,
   level: Number,
