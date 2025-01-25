@@ -167,6 +167,13 @@ async function onSubmit() {
 
     comboCount.value = Math.min(comboCount.value + 1, MAX_COMBO)
     startComboTimer()
+
+    // Check if target score is reached
+    if (score.value >= targetScore.value) {
+      clearInterval(timerInterval.value)
+      endLevel()
+      return
+    }
   } else {
     comboCount.value = 0
     clearInterval(comboTimer.value)
