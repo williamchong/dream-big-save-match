@@ -21,7 +21,7 @@
         <div class="aspect-square relative mx-auto w-[150px] md:w-[200px]">
           <div class="absolute inset-0 rounded-full animate-pulse" :style="bubbleStyle" />
           <div class="absolute inset-0 flex items-center justify-center">
-            <MatchStick :scale="1.5" />
+            <MatchStick :scale="1.5" :combo-count="comboCount" />
           </div>
         </div>
       </div>
