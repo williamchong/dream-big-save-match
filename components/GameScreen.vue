@@ -31,7 +31,7 @@
     <div class="p-4 md:p-8 bg-gray-50">
       <div class="max-w-3xl mx-auto">
         <div class="mb-4 space-y-2">
-          <div class="text-base md:text-lg">Dream: {{ theme }}</div>
+          <div class="text-base md:text-lg">Dream: {{ displayTheme }}</div>
           <div>Target: {{ targetScore }} | Score: {{ score }}</div>
         </div>
 
@@ -62,6 +62,12 @@ const props = defineProps({
 })
 
 defineEmits(['update:modelValue', 'submit'])
+
+// Add computed property for formatted theme display
+const displayTheme = computed(() => {
+  if (!props.theme) return ''
+  return props.theme.charAt(0).toUpperCase() + props.theme.slice(1)
+})
 
 // Enemy management
 const enemies = [
