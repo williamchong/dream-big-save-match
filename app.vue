@@ -1,40 +1,54 @@
 <template>
-  <div>
-    <div v-if="gameState === GAME_STATES.INTRO" class="intro-screen">
-      <h1>賣女孩救火柴</h1>
-      <p>Help the match girl survive by typing words related to dreams!</p>
-      <button @click="startGame">Start Game</button>
+  <div class="p-4">
+    <div v-if="gameState === GAME_STATES.INTRO" class="text-center p-8">
+      <h1 class="text-4xl font-bold mb-4">賣女孩救火柴</h1>
+      <p class="mb-4">Help the match girl survive by typing words related to dreams!</p>
+      <button @click="startGame"
+        class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+        Start Game
+      </button>
     </div>
 
-    <div v-else-if="gameState === GAME_STATES.LOADING" class="loading-screen">
+    <div v-else-if="gameState === GAME_STATES.LOADING" class="text-center p-8">
       Loading...
     </div>
 
-    <div v-else-if="gameState === GAME_STATES.LOSE" class="result-screen">
-      <h2>Game Over!</h2>
-      <p>Final Score: {{ score }}</p>
-      <p>Levels Completed: {{ currentLevel - 1 }}</p>
-      <button @click="returnToIntro">Return to Title</button>
+    <div v-else-if="gameState === GAME_STATES.LOSE" class="text-center p-8">
+      <h2 class="text-3xl font-bold mb-4">Game Over!</h2>
+      <p class="mb-2">Final Score: {{ score }}</p>
+      <p class="mb-4">Levels Completed: {{ currentLevel - 1 }}</p>
+      <button @click="returnToIntro"
+        class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+        Return to Title
+      </button>
     </div>
 
-    <div v-else-if="gameState === GAME_STATES.WIN" class="result-screen">
-      <h2>Congratulations!</h2>
-      <p>You've completed all levels!</p>
-      <p>Final Score: {{ score }}</p>
-      <button @click="returnToIntro">Return to Title</button>
+    <div v-else-if="gameState === GAME_STATES.WIN" class="text-center p-8">
+      <h2 class="text-3xl font-bold mb-4">Congratulations!</h2>
+      <p class="mb-2">You've completed all levels!</p>
+      <p class="mb-4">Final Score: {{ score }}</p>
+      <button @click="returnToIntro"
+        class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+        Return to Title
+      </button>
     </div>
 
-    <div v-else-if="gameState === GAME_STATES.PLAYING">
-      <div class="game-stats">
-        <div class="timer">Time: {{ timeLeft }}s</div>
+    <div v-else-if="gameState === GAME_STATES.PLAYING" class="space-y-4">
+      <div class="flex justify-between items-center mb-4">
+        <div class="text-xl font-bold">Time: {{ timeLeft }}s</div>
         <div>Level: {{ currentLevel }}/{{ MAX_LEVELS }}</div>
       </div>
-      <label>Girl's Dream: {{ themeWord }}</label>
-      <div>Target Score: {{ targetScore }}</div>
-      <div>Current Score: {{ score }}</div>
-      <form @submit.prevent="onSubmit">
-        <input v-model="inputWord">
-        <button type="submit">
+
+      <div class="space-y-2">
+        <label class="block">Girl's Dream: {{ themeWord }}</label>
+        <div>Target Score: {{ targetScore }}</div>
+        <div>Current Score: {{ score }}</div>
+      </div>
+
+      <form @submit.prevent="onSubmit" class="flex gap-2">
+        <input v-model="inputWord"
+          class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
           Enter
         </button>
       </form>
@@ -146,44 +160,3 @@ onUnmounted(() => {
   clearInterval(timerInterval.value)
 })
 </script>
-
-<style scoped>
-.timer {
-  font-size: 1.2em;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.result-screen {
-  text-align: center;
-  padding: 2rem;
-}
-
-.result-screen button {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  font-size: 1.2em;
-  cursor: pointer;
-}
-
-.game-stats {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-
-.intro-screen {
-  text-align: center;
-  padding: 2rem;
-}
-
-.intro-screen h1 {
-  font-size: 2em;
-  margin-bottom: 1rem;
-}
-
-.loading-screen {
-  text-align: center;
-  padding: 2rem;
-}
-</style>
