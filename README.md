@@ -1,16 +1,18 @@
-# Girl Match Dash
+# 賣女孩救火柴 Dream big save match
 
 A game developed for Global Game Jam Hong Kong 2025, exploring AI-assisted solo game development.
 
 ## About the Game
 
-Girl Match Dash is a 2D action-adventure game with roguelike elements. You control a matchstick that has fallen into the ocean and must guide it back to the surface. The match summons three little girls whose dreams create protective bubbles, shielding it from water and debris.
+在這款獨特的文字輸入遊戲中，玩家扮演一根掉入海中的火柴，必須透過輸入與主題相關的關鍵字來保護自己。火柴會召喚原本要販賣的女孩們，運用她們的夢想之力來對抗海中的威脅。
 
 ### Core Mechanics
-- Control the matchstick's movement while it automatically rises
-- Manage protective bubbles created by the little girls' dreams
-- Avoid obstacles and collect power-ups
-- Make strategic upgrade decisions between levels
+
+- **文字輸入戰鬥**: 輸入與主題相關的關鍵字來增強夢想之力
+- **時間限制**: 每個關卡都有固定的時間限制
+- **連擊系統**: 快速輸入可以提高獎勵倍數
+- **主題探索**: 每個關卡會隨機選擇一個女孩的夢想主題
+- **能量對決**: 在時限結束時比較夢想之力與敵人的強度
 
 ## Development Approach
 
@@ -20,8 +22,6 @@ This project serves as an experiment in AI-assisted game development for solo de
 - **AI Design Assistance**: Utilizing AI to brainstorm and refine game mechanics
 - **AI Documentation**: Generating and maintaining documentation with AI assistance
 
-### Project Structure 
-Refer to the [project_structure](project_structure) file for the project structure.
 
 ## Development Goals
 
@@ -40,8 +40,6 @@ Refer to the [project_structure](project_structure) file for the project structu
 
 1. Clone the repository
 2. Open `index.html` in a web browser
-3. Use arrow keys or mouse to control the matchstick
-4. Press SPACE to start the game
 
 ## Development Process
 
@@ -59,14 +57,6 @@ This game is being developed as a solo project with AI assistance. The developme
 - AI doesn't make build system importing libraries
 - AI doesn't setup typescript build system for you when using ts
 - In editor chat (Cursor/Copilot) by now is easier to use than Copilot Workspace
-
-## Future Improvements
-
-- Add more complex obstacle patterns
-- Implement power-up system
-- Enhance visual effects
-- Add sound effects and background music
-- Create multiple endings based on player choices
 
 ## Credits
 
