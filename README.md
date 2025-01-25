@@ -1,4 +1,4 @@
-# 賣女孩救火柴 Dream big save match
+# 賣女孩救火柴 Dream Big Save Match
 
 A game developed for Global Game Jam Hong Kong 2025, exploring AI-assisted solo game development.
 
