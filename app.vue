@@ -1,29 +1,53 @@
 <template>
   <div>
-    <label>{{ themeWord }}</label>
-    <div>Target: {{ targetScore }}</div>
-    <p>{{ score }}</p>
-    <form @submit.prevent="onSubmit">
-      <input v-model="inputWord">
-      <button type="submit">
-        Enter
-      </button>
-    </form>
+    <div v-if="isLoading">Loading...</div>
+    <div v-else>
+      <label>{{ themeWord }}</label>
+      <div>Target: {{ targetScore }}</div>
+      <p>{{ score }}</p>
+      <form @submit.prevent="onSubmit">
+        <input v-model="inputWord">
+        <button type="submit">
+          Enter
+        </button>
+      </form>
+    </div>
   </div>
 </template>
 <script setup>
 import { loadModel, compareWord } from './utils/model'
+import { LIST_OF_THEMES } from './constant'
 
-const themeWord = 'How can one become rich?'
+const isLoading = ref(true)
+const themeWord = ref('')
 const inputWord = ref('')
 const targetScore = ref(5)
 const score = ref(0)
 
-onMounted(() => {
-  loadModel()
+onMounted(async () => {
+  isLoading.value = true
+  await loadModel()
+  isLoading.value = false
+  onNewGame()
 })
 
+function onNewGame() {
+  onNewLevel()
+}
+
+function getRandomTheme() {
+  const randomIndex = Math.floor(Math.random() * LIST_OF_THEMES.length)
+  return LIST_OF_THEMES[randomIndex]
+}
+
+function onNewLevel() {
+  inputWord.value = ''
+  score.value = 0
+  themeWord.value = getRandomTheme()
+}
+
 async function onSubmit() {
-  score.value = await compareWord(themeWord, inputWord.value)
+  const question = `How can I become ${themeWord.value}?'`
+  score.value = await compareWord(question, inputWord.value)
 }
 </script>
