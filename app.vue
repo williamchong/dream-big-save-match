@@ -75,7 +75,7 @@ const timerInterval = ref(null)
 const endTime = ref(null)
 
 // Combo system constants
-const INITIAL_COMBO_TIME = 5000 // 5 seconds
+const INITIAL_COMBO_TIME = 10000 // 10 seconds
 const MAX_COMBO = 5
 const BASE_MULTIPLIER = 1.2
 
