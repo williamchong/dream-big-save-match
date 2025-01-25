@@ -38,7 +38,12 @@
 </template>
 
 <script setup>
-const currentSlide = ref(0)
+const currentSlide = ref(-1)
+
+// Hack to avoid the first slide being empty
+onMounted(() => {
+  currentSlide.value = 0
+})
 
 // Import all intro images
 const introImages = [
