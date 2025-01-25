@@ -101,6 +101,7 @@ defineProps({
   0% {
     transform: translateX(-50%) scale(0.9, 1.1);
   }
+
   100% {
     transform: translateX(-50%) scale(1.1, 0.9);
   }

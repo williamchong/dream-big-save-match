@@ -30,6 +30,19 @@
     <!-- Input Area -->
     <div class="p-4 md:p-8 bg-gray-50">
       <div class="max-w-3xl mx-auto">
+        <!-- Combo Display -->
+        <div v-if="comboCount > 0" class="mb-4">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-bold">Combo x{{ comboCount }} ({{ multiplier.toFixed(1) }}x)</span>
+          </div>
+          <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div 
+              class="h-full bg-blue-500 transition-all duration-100" 
+              :style="{ width: `${(comboTimeLeft / 5000) * 100}%` }"
+            ></div>
+          </div>
+        </div>
+
         <div class="mb-4 space-y-2">
           <div class="text-base md:text-lg">Dream: {{ displayTheme }}</div>
           <div>Target: {{ targetScore }} | Score: {{ score }}</div>
@@ -58,7 +71,10 @@ const props = defineProps({
   theme: String,
   score: Number,
   targetScore: Number,
-  modelValue: String
+  modelValue: String,
+  comboCount: Number,
+  comboTimeLeft: Number,
+  multiplier: Number,
 })
 
 defineEmits(['update:modelValue', 'submit'])

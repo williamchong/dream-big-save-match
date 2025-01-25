@@ -30,7 +30,8 @@
 
     <div v-else-if="gameState === GAME_STATES.PLAYING" class="flex-1">
       <GameScreen :time-left="timeLeft" :level="currentLevel" :max-level="MAX_LEVELS" :theme="themeWord" :score="score"
-        :target-score="targetScore" v-model="inputWord" @submit="onSubmit" />
+        :target-score="targetScore" :combo-count="comboCount" :combo-time-left="comboTimeLeft"
+        :multiplier="currentMultiplier" v-model="inputWord" @submit="onSubmit" />
     </div>
   </div>
 </template>
@@ -55,6 +56,22 @@ const TIME_LIMIT = 60 // 60 seconds per level
 const timeLeft = ref(TIME_LIMIT)
 const timerInterval = ref(null)
 const endTime = ref(null)
+
+// Combo system constants
+const INITIAL_COMBO_TIME = 5000 // 5 seconds
+const MAX_COMBO = 5
+const BASE_MULTIPLIER = 1.2
+
+// Add combo state
+const comboCount = ref(0)
+const comboTimer = ref(null)
+const comboEndTime = ref(null)
+const comboTimeLeft = ref(0)
+
+const currentMultiplier = computed(() => {
+  if (comboCount.value === 0) return 1
+  return Math.pow(BASE_MULTIPLIER, Math.min(comboCount.value, MAX_COMBO))
+})
 
 onMounted(async () => {
   isLoading.value = true
@@ -119,22 +136,48 @@ function onNewLevel() {
   score.value = 0
   themeWord.value = getRandomTheme()
   startTimer()
+  comboCount.value = 0
+  clearInterval(comboTimer.value)
+}
+
+function startComboTimer() {
+  clearInterval(comboTimer.value)
+  const duration = INITIAL_COMBO_TIME - (comboCount.value * 500)
+  comboEndTime.value = Date.now() + duration
+
+  comboTimer.value = setInterval(() => {
+    const now = Date.now()
+    comboTimeLeft.value = Math.max(0, comboEndTime.value - now)
+
+    if (comboTimeLeft.value <= 0) {
+      clearInterval(comboTimer.value)
+      comboCount.value = 0
+    }
+  }, 16)
 }
 
 async function onSubmit() {
   const question = `How can I become ${themeWord.value}?'`
   const result = await compareWord(question, inputWord.value)
+
   if (result >= 11) {
-    // good answer
-    score.value += Math.round((result - 10) ^ 2)
+    const baseScore = (result - 10) ^ 2
+    const finalScore = Math.round(baseScore * currentMultiplier.value)
+    score.value += finalScore
+
+    comboCount.value = Math.min(comboCount.value + 1, MAX_COMBO)
+    startComboTimer()
   } else {
-    // bad or meh answer
+    comboCount.value = 0
+    clearInterval(comboTimer.value)
     score.value -= Math.round(10 - result)
   }
+
   inputWord.value = ''
 }
 
 onUnmounted(() => {
   clearInterval(timerInterval.value)
+  clearInterval(comboTimer.value)
 })
 </script>
