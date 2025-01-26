@@ -23,7 +23,6 @@ export const LIST_OF_THEMES = [
   // 自我實現
   'independent thinker',     // 獨立思考者
   'social influencer',       // 網路紅人
-  'charitable person',       // 慈善家
   'inspiring leader',        // 領袖人物
   'fashion icon',            // 時尚達人
 ];
