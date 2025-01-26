@@ -45,16 +45,19 @@
         </div>
 
         <div class="mb-4 space-y-2">
-          <div class="text-base md:text-lg">Girl's Dream: {{ displayTheme }}</div>
+          <div class="text-base md:text-lg">
+            {{ randomGirlEmoji }} Girl's Dream: I want to be <code>{{ displayTheme }}</code>
+          </div>
           <div>Target: {{ targetScore }} | Score: {{ score }}</div>
         </div>
 
         <form class="flex gap-2 relative" @submit.prevent="$emit('submit')">
           <input :value="modelValue"
             class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Type your answer..." @input="$emit('update:modelValue', $event.target.value)">
+            placeholder="Type your words of encouragement to her!"
+            @input="$emit('update:modelValue', $event.target.value)">
           <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-            Enter
+            Send!
           </button>
           <!-- Feedback Emoji -->
           <Transition enter-active-class="transition duration-200 ease-out"
@@ -141,6 +144,17 @@ const bubbleStyle = computed(() => {
     border: `${2 + (scoreRatio * 4)}px solid rgba(255,255,255,0.6)`,
     boxShadow: `0 0 20px rgba(147,197,253,${0.3 + (scoreRatio * 0.3)})`
   }
+})
+
+// Array of girl-related emojis
+const girlEmojis = [
+  '👧', '👱‍♀️', '👩', '🎀', '👗', '👒', '💝', '🌸', '💫', '✨'
+]
+
+// Get random emoji
+const randomGirlEmoji = computed(() => {
+  const randomIndex = Math.floor(Math.random() * girlEmojis.length)
+  return girlEmojis[randomIndex]
 })
 </script>
 
