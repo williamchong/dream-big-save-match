@@ -30,9 +30,9 @@
 
     <div v-else-if="gameState === GAME_STATES.PLAYING" class="flex-1">
       <GameScreen :time-left="timeLeft" :level="currentLevel" :max-level="MAX_LEVELS" :theme="themeWord" :score="score"
-        :target-score="targetScore" :combo-count="comboCount" :combo-time-left="comboTimeLeft"
-        :multiplier="currentMultiplier" :last-input-good="lastInputGood" :show-feedback="showFeedback"
-        v-model="inputWord" @submit="onSubmit" />
+        :target-score="targetScore" :combo-count="comboCount" :combo-time-total="INITIAL_COMBO_TIME"
+        :combo-time-left="comboTimeLeft" :multiplier="currentMultiplier" :last-input-good="lastInputGood"
+        :show-feedback="showFeedback" v-model="inputWord" @submit="onSubmit" />
     </div>
 
     <div v-else-if="gameState === GAME_STATES.LEVEL_CLEAR"

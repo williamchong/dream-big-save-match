@@ -40,7 +40,7 @@
           </div>
           <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
             <div class="h-full bg-blue-500 transition-all duration-100"
-              :style="{ width: `${(comboTimeLeft / 5000) * 100}%` }"></div>
+              :style="{ width: `${(comboTimeLeft / comboTimeTotal) * 100}%` }"></div>
           </div>
         </div>
 
@@ -85,6 +85,7 @@ const props = defineProps({
   modelValue: String,
   comboCount: Number,
   comboTimeLeft: Number,
+  comboTimeTotal: Number,
   multiplier: Number,
   lastInputGood: {
     type: Boolean,
